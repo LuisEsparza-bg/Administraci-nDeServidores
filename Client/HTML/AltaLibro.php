@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <!-- Aquí añade la referencia a tu archivo CSS -->
-  <link rel="stylesheet" href="AltaLibro.css">
+  <link rel="stylesheet" href="../CSS/AltaLibro.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
 </head>

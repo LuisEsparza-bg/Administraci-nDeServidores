@@ -31,7 +31,43 @@ Class users extends DB{
             return false;
         }
     }
+
+    function login($username, $password){
+
+        try {
+            $con = $this->connect();
     
+            // Preparar la consulta SQL con marcadores de posición
+            $query = "SELECT * FROM usuario WHERE Correo_Electronico = :correo AND Contrasena = :contrasena";
+            $exec = $con->prepare($query);
+            
+            // Asociar los valores a los marcadores de posición
+            $exec->bindParam(':correo', $username);
+            $exec->bindParam(':contrasena', $password);
+            
+            // Ejecutar la consulta
+            $exec->execute();
+    
+            // Verificar si la consulta fue exitosa
+            if ($exec->rowCount() > 0) {
+                // Recuperar los datos del usuario
+                $username = $exec->fetch(PDO::FETCH_ASSOC);
+                $exec = null;
+                return $username; // Devuelve los datos del usuario
+            } else {
+                $exec = null;
+                return false; // Error en la consulta
+            }
+        } catch (PDOException $e) {
+            // Manejar errores de la base de datos
+            echo "Error al hacer login: " . $e->getMessage();
+            $exec = null;
+            return false;
+        }
+    }
+    
+
+
 }
 
 ?>

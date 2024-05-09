@@ -9,7 +9,7 @@
     <title>Login</title>
 </head>
 <body>
-<section class="h-100 gradient-form" style="background-color: #eee;">
+<section class="h-100 gradient-form" style="background-color: #fccb90;">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-xl-10">
@@ -24,21 +24,21 @@
                   <h4 class="mt-1 mb-5 pb-1" style="font-style: italic;" >Biblioteca Universitaria Capilla Alfonsina</h4>
                 </div>
 
-                <form>
+                <form method = "POST" action = "../../Server/API/loginUsers.php">
                   <p>Inicia Sesión</p>
 
                   <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="email" id="form2Example11" class="form-control"/>
+                    <input type="email" id="correo" name="correo" class="form-control"/>
                     <label class="form-label" for="form2Example11">Correo</label>
                   </div>
 
                   <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="password" id="form2Example22" class="form-control" />
+                    <input type="password" id="contrasena" name="contrasena" class="form-control" />
                     <label class="form-label" for="form2Example22">Contraseña</label>
                   </div>
 
                   <div class="text-center pt-1 mb-5 pb-1">
-                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" onclick="window.location.href='PaginaInicio.php';"> Iniciar Sesión </button>
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit"> Iniciar Sesión </button>
                   </div>
 
                   <div class="d-flex align-items-center justify-content-center pb-4">

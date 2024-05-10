@@ -120,7 +120,7 @@ $categorias = $categoriasClass->VerCategorias($conn);
 
                   <div class="d-flex justify-content-end pt-3">
                     <button type="button" data-mdb-button-init data-mdb-ripple-init
-                      class="btn btn-secondary btn-lg">Regresar</button>
+                      class="btn btn-secondary btn-lg" onclick="window.location.href='PaginaInicio.php';">Regresar</button>
                     <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-success btn-lg ms-2"
                       id="Btn_AltaLibro">Agregar Libro</button>
                   </div>

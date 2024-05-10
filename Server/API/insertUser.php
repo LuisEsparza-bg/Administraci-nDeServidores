@@ -7,7 +7,7 @@ $user = new users();
 $nombre = $_POST['nombre'];
 $correo = $_POST['correo'];
 $contrasena = $_POST['contrasena'];
-$res = $user->registerUser($correo, $nombre, $contrasena);
+$res = $user->registerUser($correo, $nombre, $contrasena );
 
 if($res !== true){
 

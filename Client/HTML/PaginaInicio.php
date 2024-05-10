@@ -1,5 +1,42 @@
 <?php
+
+
 session_start();
+include '../../Server/Models/Categories.php';
+include '../../Server/DBConnection/ConnectDB.php';
+include '../../Server/DAO/DAOLibros.php';
+
+
+$db = new DB();
+$conn = $db->connect();
+$categoriasClass = new Categories();
+$categorias = $categoriasClass->VerCategorias($conn);
+$librosNuevo = new librosDAO();
+
+ 
+if(isset($_GET) && !empty($_GET)) {
+  // Verificar si existe el parámetro 'categorias'
+  if(isset($_GET['categoria'])) {
+      $categoria = $_GET['categoria'];
+      
+  } else {
+      
+  }
+  
+  // Verificar si existe el parámetro 'autorTexto'
+  if(isset($_GET['autorTitulo'])) {
+      $autorTexto = $_GET['autorTitulo'];
+      
+      $libros = new LibrosDAO();
+      $librosNuevo = $libros->busquedaLibros($autorTexto,$categoria);
+  } else {
+      
+  }
+} else {
+  
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,6 +47,20 @@ session_start();
     <link rel="stylesheet" href="../CSS/PaginaInicio.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 </head>
+<script>
+    // Función para enviar los parámetros de búsqueda a la página de inicio
+    function enviarParametros() {
+        // Obtener los valores de los campos de búsqueda
+        var categoria = document.getElementById('categorias').value;
+        var autorTitulo = document.getElementById('search').value;
+
+        // Construir la URL con los parámetros de búsqueda
+        var url = 'http://localhost:8080/dashboard/AdserBiblioteca/AdministracionDeServidores/Client/HTML/PaginaInicio.php?categoria=' + categoria + '&autorTitulo=' + autorTitulo;
+
+        // Redirigir a la nueva página
+        window.location.href = url;
+    }
+</script>
 <body>
 <nav class="navbar navbar-expand-lg fixed-top navbar-scroll shadow-0" style="background-color: #fccb90;">
   <div class="container">
@@ -23,82 +74,86 @@ session_start();
   </div>
 </nav>
 <div class="Columna">
-<div class="container" style="margin-top: 160px;">
+<div class="container" style="margin-top: 70px;">
 <div class="row">
     <div class="col-lg-12 card-margin">
         <div class="card search-form">
             <div class="card-body p-0">
-                <form id="search-form">
+                
                     <div class="row">
                         <div class="col-12">
                             <div class="row no-gutters">
                                 <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                    <select class="form-control" id="exampleFormControlSelect1">
-                                    <option selected>Categorías</option>
-                                    <option>London</option>
-                                    <option>Boston</option>
-                                    <option>Mumbai</option>
-                                    <option>New York</option>
-                                    <option>Toronto</option>
-                                    <option>Paris</option>
-                                    </select>
+                                <?php
+                                      if ($categorias) {
+                                        echo '<select data-mdb-select-init class="form-select" id="categorias">';
+                                        foreach ($categorias as $categoria) {
+                                          echo '<option value="' . $categoria['ID_Categoria'] . '"data-idCategoria="' . $categoria['ID_Categoria'] . '" title="' . $categoria['Descripcion_Categoria'] . '">' .
+                                            $categoria['Nombre_Categoria'] . '</option>';
+                                        }
+                                        echo '</select>';
+                                      } else {
+                                        echo "No se encontraron categorías.";
+                                      }
+                                      ?>
                                 </div>
                                 <div class="col-lg-8 col-md-6 col-sm-12 p-0">
                                     <input type="text" placeholder="Search..." class="form-control" id="search" name="search">
                                 </div>
                                 <div class="col-lg-1 col-md-3 col-sm-12 p-0">
-                                    <button type="submit" class="btn btn-base">
+                                <button type="button" onclick="enviarParametros()" class="btn btn-base">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
+                
             </div>
         </div>
     </div>
 </div>
 
+<div style="background-color: white; width: 1300px; height: 1000px; padding: 20px 40px;" id= "busqLibro">
+<?php
+if($librosNuevo) {
+    foreach($librosNuevo as $libro) {
+      $imagenCodificada = $libro['Portada'];
+
+    // Decodificar la imagen
+    $imagenDecodificada = base64_encode($imagenCodificada);
+
+  
+?>
 <div class="well search-result">
-                <div class="row">
-                    <a href="#">
-                        <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
-                            <img class="img-responsive" src="https://www.bootdey.com/image/400x200/7B68EE/000000" alt="">
-                        </div>
-                        <div class="col-xs-6 col-sm-9 col-md-9 col-lg-10 title">
-                            <h3>Result name one</h3>
-                            <p>Ut quis libero id orci semper porta ac vel ante. In nec laoreet sapien. Nunc hendrerit ligula at massa sodales, ullamcorper rutrum orci semper.</p>
-                        </div>
-                    </a>
-                </div>
+    <div class="row">
+        <a href="#">
+            <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
+                <!-- Aquí puedes agregar la imagen del libro -->
+                <?php echo '<img class="img-responsive" style="max-width: 400px; max-height: 300px;" src="data:image/jpeg;base64,' . $imagenDecodificada . '" alt="' . $libro['Titulo'] . '">'; ?>
             </div>
-            <div class="well search-result">
-                <div class="row">
-                    <a href="#">
-                        <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
-                            <img class="img-responsive" src="https://www.bootdey.com/image/400x200/FA8072/000000" alt="">
-                        </div>
-                        <div class="col-xs-6 col-sm-9 col-md-9 col-lg-10 title">
-                            <h3>Blueberry Sport</h3>
-                            <p>Nulla rhoncus lacus tortor, vel tincidunt dolor eleifend et. Ut consequat elit quam, iaculis volutpat ipsum fermentum pulvinar. Pellentesque nec sem vel arcu ornare faucibus.</p>
-                        </div>
-                    </a>
-                </div>
+            <div class="col-xs-6 col-sm-9 col-md-9 col-lg-10 title">
+                
+                <h3><?php echo $libro['Titulo']; ?></h3>
+                
+                <p><?php echo "Nombre de Autor: " . $libro['Nombre_Autor']; ?></p>
+                <p><?php echo "Sinopsis: " . $libro['Sinopsis']; ?></p>
+                <p><?php echo "Año de publicación: " . $libro['Year_Publicacion']; ?></p>
+                <p><?php echo "Editorial: " . $libro['Editorial']; ?></p>
             </div>
-            <div class="well search-result">
-                <div class="row">
-                    <a href="#">
-                        <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
-                            <img class="img-responsive" src="https://www.bootdey.com/image/400x200/48D1CC/000000" alt="">
-                        </div>
-                        <div class="col-xs-6 col-sm-9 col-md-9 col-lg-10 title">
-                            <h3>Power Thirst</h3>
-                            <p>Cras nisi dolor, tristique id vehicula vitae, mollis at eros. Ut euismod sem eu tellus vestibulum, in facilisis est feugiat. Mauris sed leo sed erat vestibulum suscipit.</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
+        </a>
+    </div>
+</div>
+<?php
+    }
+} else {
+    echo "No se encontraron resultados.";
+}
+?>
+</div>
+
+
+
 </div>
             <footer
           class="text-center text-lg-start text-white"

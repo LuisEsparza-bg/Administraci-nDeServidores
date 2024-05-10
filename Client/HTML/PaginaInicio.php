@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +15,10 @@
   <div class="container">
   <img src="../Imagenes/UANL.png"
                     style="width: 185px; height: 100px;" alt="logo">
-                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 btn-cafe" type="button" onclick="window.location.href='AltaLibro.php';"> Agregar libro a la biblioteca</button>
+                    <?php if($_SESSION['rol'] == 0):?>
+                      <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 btn-cafe" type="button" onclick="window.location.href='AltaLibro.php';"> Dar de Alta Libro</button>
+                     <?php endif?>
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 btn-cafe" type="button" onclick="window.location.href='Login.php';"> Cerrar Sesión </button>
     <img src="../Imagenes/LogoSinRelleno.png" style="width: 200px; height: 150px;" alt="logo">                    
   </div>
 </nav>

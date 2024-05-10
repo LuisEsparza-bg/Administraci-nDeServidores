@@ -22,20 +22,20 @@
             <div class="card-body p-5">
               <h2 class="text-uppercase text-center mb-5">Registro</h2>
 
-              <form>
+              <form method = "POST" action = "../../Server/API/insertUser.php">
 
                 <div data-mdb-input-init class="form-outline mb-4">
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" />
+                  <input type="text" id="nombre" name="nombre" class="form-control form-control-lg" />
                   <label class="form-label" for="form3Example1cg">Nombre Completo</label>
                 </div>
 
                 <div data-mdb-input-init class="form-outline mb-4">
-                  <input type="email" id="form3Example3cg" class="form-control form-control-lg" />
+                  <input type="email" id="correo" name="correo" class="form-control form-control-lg" />
                   <label class="form-label" for="form3Example3cg">Correo</label>
                 </div>
 
                 <div data-mdb-input-init class="form-outline mb-4">
-                  <input type="password" id="form3Example4cg" class="form-control form-control-lg" />
+                  <input type="password" id="contrasena" name="contrasena" class="form-control form-control-lg" />
                   <label class="form-label" for="form3Example4cg">Contraseña</label>
                 </div>
 
@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="d-flex justify-content-center">
-                  <button  type="button" data-mdb-button-init
+                  <button  type="submit" data-mdb-button-init
                     data-mdb-ripple-init class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Registrarse</button>
                 </div>
 
